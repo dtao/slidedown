@@ -1,0 +1,7 @@
+{
+  "destination": "lib",
+
+  "dependencies": [
+    ["chjj/marked", "lib/marked.js"]
+  ]
+}
