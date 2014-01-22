@@ -37,6 +37,11 @@ body {
   text-align: left;
 }
 
+code {
+  font-family: "Inconsolata", monospace;
+  font-size: 125%;
+}
+
 [data-layout="title-only"] h1 {
   position: absolute;
   top: calc(50% - 32px);
