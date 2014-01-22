@@ -1,6 +1,12 @@
 window.addEventListener('load', function() {
   var title = this.title;
 
+  marked.setOptions({
+    highlight: function(code, lang) {
+      return hljs.highlight(lang, code).value;
+    }
+  });
+
   var request = new XMLHttpRequest();
   request.open('GET', title + '.markdown');
 
@@ -18,8 +24,15 @@ window.addEventListener('load', function() {
 
     document.querySelector('.slide:first-child').className += ' current';
 
+    // Attach left/right keyboard shortcuts
     Mousetrap.bind('right', nextSlide);
     Mousetrap.bind('left', prevSlide);
+
+    // For some reason highlight.js doesn't seem to assign the expected 'hljs'
+    // class to <code> blocks?
+    forEach(document.querySelectorAll('pre > code'), function(code) {
+      code.className += ' hljs';
+    });
   });
 
   request.send();
