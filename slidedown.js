@@ -1,35 +1,51 @@
-window.addEventListener('load', function() {
-  var title = this.title;
+(function() {
 
-  marked.setOptions({
-    highlight: function(code, lang) {
-      return hljs.highlight(lang, code).value;
+  this.Slide = {
+
+    down: function(title) {
+      whenReady(function() {
+        marked.setOptions({
+          highlight: function(code, lang) {
+            return hljs.highlight(lang, code).value;
+          }
+        });
+
+        var request = new XMLHttpRequest();
+        request.open('GET', title + '.markdown');
+
+        request.addEventListener('load', function() {
+          var html = marked(request.responseText),
+              doc  = parseHTML(html);
+
+          eachSlide(doc, function(slide) {
+            var element = document.createElement('DIV');
+            element.className = 'slide';
+            element.setAttribute('data-layout', slide.layout);
+            element.innerHTML = slide.html;
+            document.body.appendChild(element);
+          });
+
+          document.querySelector('.slide:first-child').className += ' current';
+
+          // Attach left/right keyboard shortcuts
+          Mousetrap.bind('right', nextSlide);
+          Mousetrap.bind('left', prevSlide);
+        });
+
+        request.send();
+      });
     }
-  });
 
-  var request = new XMLHttpRequest();
-  request.open('GET', title + '.markdown');
+  };
 
-  request.addEventListener('load', function() {
-    var html = marked(request.responseText),
-        doc  = parseHTML(html);
+  function whenReady(callback) {
+    if (document.readyState === "complete") {
+      setTimeout(callback, 0);
+      return;
+    }
 
-    eachSlide(doc, function(slide) {
-      var element = document.createElement('DIV');
-      element.className = 'slide';
-      element.setAttribute('data-layout', slide.layout);
-      element.innerHTML = slide.html;
-      document.body.appendChild(element);
-    });
-
-    document.querySelector('.slide:first-child').className += ' current';
-
-    // Attach left/right keyboard shortcuts
-    Mousetrap.bind('right', nextSlide);
-    Mousetrap.bind('left', prevSlide);
-  });
-
-  request.send();
+    window.addEventListener('load', callback);
+  }
 
   function parseHTML(html) {
     var wrapper = document.createElement('DIV');
@@ -108,4 +124,5 @@ window.addEventListener('load', function() {
       addClass(prev, 'current');
     }
   }
-});
+
+}).call(this);
