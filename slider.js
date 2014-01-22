@@ -27,12 +27,6 @@ window.addEventListener('load', function() {
     // Attach left/right keyboard shortcuts
     Mousetrap.bind('right', nextSlide);
     Mousetrap.bind('left', prevSlide);
-
-    // For some reason highlight.js doesn't seem to assign the expected 'hljs'
-    // class to <code> blocks?
-    forEach(document.querySelectorAll('pre > code'), function(code) {
-      code.className += ' hljs';
-    });
   });
 
   request.send();
