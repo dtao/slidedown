@@ -28,8 +28,8 @@
           document.querySelector('.slide:first-child').className += ' current';
 
           // Attach left/right keyboard shortcuts
-          Mousetrap.bind('right', nextSlide);
-          Mousetrap.bind('left', prevSlide);
+          handleKey(39, nextSlide);
+          handleKey(37, prevSlide);
         });
 
         request.send();
@@ -103,6 +103,14 @@
 
   function addClass(element, className) {
     element.classList.add(className);
+  }
+
+  function handleKey(keyCode, callback) {
+    document.addEventListener('keydown', function(e) {
+      if (e.keyCode === keyCode) {
+        callback();
+      }
+    });
   }
 
   function nextSlide() {
