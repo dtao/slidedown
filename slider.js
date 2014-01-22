@@ -15,6 +15,11 @@ window.addEventListener('load', function() {
       element.innerHTML = slide.html;
       document.body.appendChild(element);
     });
+
+    document.querySelector('.slide:first-child').className += ' current';
+
+    Mousetrap.bind('right', nextSlide);
+    Mousetrap.bind('left', prevSlide);
   });
 
   request.send();
@@ -58,11 +63,42 @@ window.addEventListener('load', function() {
     var key = parts.map(function(part) { return part.tagName; }).join(',');
 
     switch (key) {
+      case 'H1':
+        return 'title-only';
+
       case 'H1,H2':
         return 'title-subtitle';
 
       default:
         return 'default';
+    }
+  }
+
+  function removeClass(element, className) {
+    element.classList.remove(className);
+  }
+
+  function addClass(element, className) {
+    element.classList.add(className);
+  }
+
+  function nextSlide() {
+    var current = document.querySelector('.slide.current'),
+        next    = current.nextElementSibling;
+
+    if (next) {
+      removeClass(current, 'current');
+      addClass(next, 'current');
+    }
+  }
+
+  function prevSlide() {
+    var current = document.querySelector('.slide.current'),
+        prev    = current.previousElementSibling;
+
+    if (prev) {
+      removeClass(current, 'current');
+      addClass(prev, 'current');
     }
   }
 });

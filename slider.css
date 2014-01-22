@@ -1,3 +1,67 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  height: 100%;
+  width: 100%;
+
+  text-align: center;
+  visibility: hidden;
+}
+
+.slide.current {
+  visibility: visible;
+}
+
+.slide ul,
+.slide pre {
+  width: fit-content;
+  width: intrinsic;
+  margin: auto;
+
+  text-align: left;
+}
+
+[data-layout="title-only"] h1 {
+  position: absolute;
+  top: calc(50% - 32px);
+  left: 0;
+  right: 0;
+
+  font-size: 64px;
+  line-height: 64px;
+}
+
+[data-layout="title-subtitle"] h1 {
+  position: absolute;
+  top: calc(50% - 48px);
+  left: 0;
+  right: 0;
+
+  font-size: 40px;
+  line-height: 48px;
+}
+
+[data-layout="title-subtitle"] h2 {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+
+  font-size: 36px;
+  line-height: 36px;
 }

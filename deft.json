@@ -2,6 +2,7 @@
   "destination": "lib",
 
   "dependencies": [
-    ["chjj/marked", "lib/marked.js"]
+    ["chjj/marked", "lib/marked.js"],
+    ["ccampbell/mousetrap", "mousetrap.js"]
   ]
 }
