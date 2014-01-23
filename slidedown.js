@@ -124,7 +124,7 @@
     if (next) {
       removeClass(current, 'current');
       addClass(next, 'current');
-      window.history.pushState({}, '', '#' + next.id);
+      setSlideId(next.id);
     }
   }
 
@@ -135,8 +135,12 @@
     if (prev) {
       removeClass(current, 'current');
       addClass(prev, 'current');
-      window.history.pushState({}, '', '#' + prev.id);
+      setSlideId(prev.id);
     }
+  }
+
+  function setSlideId(id) {
+    window.history.pushState({}, '', '#' + id);
   }
 
   function focusTargetSlide() {
