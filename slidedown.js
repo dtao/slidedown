@@ -2,12 +2,10 @@
 
   this.Slide = {
 
-    down: function(title) {
+    down: function down(title) {
       whenReady(function() {
         marked.setOptions({
-          highlight: function(code, lang) {
-            return hljs.highlight(lang, code).value;
-          }
+          renderer: new CustomRenderer()
         });
 
         var request = new XMLHttpRequest();
@@ -153,5 +151,18 @@
     var targetSlide = document.querySelector(window.location.hash || '.slide:first-child');
     addClass(targetSlide, 'current');
   }
+
+  function CustomRenderer() {}
+
+  CustomRenderer.prototype = new marked.Renderer();
+
+  CustomRenderer.prototype.code = function code(code, lang) {
+    if (!lang) {
+      return marked.Renderer.prototype.code.call(this, code, lang);
+    }
+
+    var html = hljs.highlight(lang, code).value;
+    return '<pre class="' + lang + '">' + html + '</pre>';
+  };
 
 }).call(this);
