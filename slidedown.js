@@ -17,19 +17,22 @@
           var html = marked(request.responseText),
               doc  = parseHTML(html);
 
-          eachSlide(doc, function(slide) {
+          eachSlide(doc, function(slide, number) {
             var element = document.createElement('DIV');
+            element.id = 'slide-' + number;
             element.className = 'slide';
             element.setAttribute('data-layout', slide.layout);
             element.innerHTML = slide.html;
             document.body.appendChild(element);
           });
 
-          document.querySelector('.slide:first-child').className += ' current';
-
           // Attach left/right keyboard shortcuts
           handleKey(39, nextSlide);
           handleKey(37, prevSlide);
+
+          // Focus on the target slide (or first, by default)
+          focusTargetSlide();
+          window.addEventListener('hashchange', focusTargetSlide);
         });
 
         request.send();
@@ -54,11 +57,12 @@
   }
 
   function eachSlide(doc, callback) {
-    var parts = [];
+    var parts   = [],
+        counter = 1;
 
     forEach(doc, function(element) {
       if (element.tagName === 'HR') {
-        callback(createSlide(parts));
+        callback(createSlide(parts), counter++);
         parts = [];
         return;
       }
@@ -67,7 +71,7 @@
     });
 
     if (parts.length > 0) {
-      callback(createSlide(parts));
+      callback(createSlide(parts), counter++);
     }
   }
 
@@ -120,6 +124,7 @@
     if (next) {
       removeClass(current, 'current');
       addClass(next, 'current');
+      window.history.pushState({}, '', '#' + next.id);
     }
   }
 
@@ -130,7 +135,19 @@
     if (prev) {
       removeClass(current, 'current');
       addClass(prev, 'current');
+      window.history.pushState({}, '', '#' + prev.id);
     }
+  }
+
+  function focusTargetSlide() {
+    var current = document.querySelector('.slide.current');
+
+    if (current) {
+      removeClass(current, 'current');
+    }
+
+    var targetSlide = document.querySelector(window.location.hash || '.slide:first-child');
+    addClass(targetSlide, 'current');
   }
 
 }).call(this);
