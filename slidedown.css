@@ -7,7 +7,7 @@ html, body {
 
 body {
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
-  font-size: 150%;
+  font-size: 200%;
 }
 
 code {
@@ -15,57 +15,75 @@ code {
 }
 
 .slide {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 10%;
-  right: 10%;
+  height: calc(100% - 48px);
+  width: fit-content;
+  width: intrinsic;
+  max-width: 60%;
+  margin: auto;
+  padding-top: 48px;
 
-  height: 100%;
-  width: 80%;
-
-  text-align: center;
-  visibility: hidden;
+  display: none;
 }
 
 .slide.current {
-  visibility: visible;
+  display: block;
 }
 
-.slide ul,
+.slide h1,
+.slide h2,
+.slide h3 {
+  text-align: center;
+}
+
+.slide h1 strong,
+.slide h2 strong,
+.slide h3 strong {
+  color: red;
+}
+
 .slide pre {
-  width: fit-content;
-  width: intrinsic;
-  margin: auto;
-
-  text-align: left;
+  position: relative;
+  padding: 12px;
+  background-color: #eee;
 }
 
-code {
-  font-family: "Inconsolata", monospace;
-  font-size: 125%;
+.slide blockquote {
+  border-left: 6px solid #888;
+  padding-left: 12px;
+}
+
+/* Yeah, I like Bootstrap's code formatting, OK? */
+.slide li code,
+.slide p code {
+  padding: 2px 4px;
+
+  font-size: 90%;
+
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
 }
 
 [data-layout="title-only"] h1 {
   position: absolute;
-  top: calc(50% - 32px);
+  top: calc(50% - 40px);
   left: 0;
   right: 0;
 
-  font-size: 64px;
+  font-size: 72px;
   font-weight: bold;
-  line-height: 64px;
+  line-height: 80px;
 }
 
 [data-layout="title-subtitle"] h1 {
   position: absolute;
-  top: calc(50% - 48px);
+  top: calc(50% - 56px);
   left: 0;
   right: 0;
 
   font-size: 48px;
   font-weight: bold;
-  line-height: 48px;
+  line-height: 56px;
 }
 
 [data-layout="title-subtitle"] h2 {
@@ -76,5 +94,4 @@ code {
 
   font-size: 36px;
   font-weight: normal;
-  line-height: 36px;
 }
