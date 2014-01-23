@@ -52,6 +52,12 @@ code {
   padding-left: 12px;
 }
 
+/* Center images on their own line (<p><img /></p>) */
+.slide p > img:first-child:last-child {
+  display: block;
+  margin: auto;
+}
+
 /* Yeah, I like Bootstrap's code formatting, OK? */
 .slide li code,
 .slide p code {
