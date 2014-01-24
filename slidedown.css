@@ -30,16 +30,15 @@ code {
   display: block;
 }
 
-@media all and (max-width: 1199px) {
+@media all and (min-width: 960px) {
   .slide {
-    width: calc(100% - 24px);
+    max-width: 960px;
   }
 }
 
-@media all and (min-width: 1200px) {
+@media all and (min-width: 1280px) {
   .slide {
-    width: 60%;
-    min-width: 1200px;
+    max-width: 75%;
   }
 }
 
