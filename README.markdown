@@ -1,5 +1,5 @@
 # Slidedown
-## Markdown slide decks
+## Markdown [slide decks](http://danieltao.com/slidedown)
 
 ***
 
@@ -7,17 +7,20 @@
 
 Write your presentations in a text editor.
 
+Separate slides with `***`.
+
+For example, this is what this slide (before this sentence) looks like:
+
 ```markdown
-# Slide title
-## Subtitle
-
 ***
 
-# Slide 1
+# The basic idea
+
+Write your presentations in a text editor.
+
+Separate slides with `***`.
 
 ***
-
-# Slide 2
 ```
 
 ***
