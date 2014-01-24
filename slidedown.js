@@ -1,7 +1,7 @@
 (function() {
 
   function Slidedown() {
-    this.target = document.body;
+    this.target = 'body';
   }
 
   Slidedown.prototype = {
