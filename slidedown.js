@@ -1,16 +1,23 @@
 (function() {
 
-  var Slidedown = {
+  function Slidedown() {
+    this.target = document.body;
+  }
+
+  Slidedown.prototype = {
+
+    to: function to(target) {
+      this.target = target;
+    },
+
+    append: function append(element) {
+      var destination = typeof this.target === 'string' ?
+        document.querySelector(this.target) : this.target;
+      destination.appendChild(element);
+    },
 
     fromElements: function fromElements(elements) {
-      var target = document.body;
-
-      var destination = function() {
-        if (typeof target === 'string') {
-          return document.querySelector(target);
-        }
-        return target;
-      };
+      var slidedown = this;
 
       whenReady(function() {
         eachSlide(elements, function(slide, number) {
@@ -19,7 +26,7 @@
           element.className = 'slide';
           element.setAttribute('data-layout', slide.layout);
           element.innerHTML = slide.html;
-          destination().appendChild(element);
+          slidedown.append(element);
         });
 
         // Attach left/right keyboard shortcuts
@@ -31,16 +38,12 @@
         window.addEventListener('hashchange', focusTargetSlide);
       });
 
-      return {
-        to: function(newTarget) {
-          target = newTarget;
-        }
-      };
+      return slidedown;
     },
 
     fromHTML: function fromHTML(html) {
       var elements = parseHTML(html);
-      return Slidedown.fromElements(elements);
+      return this.fromElements(elements);
     },
 
     fromMarkdown: function fromMarkdown(markdown) {
@@ -49,27 +52,23 @@
       });
 
       var html = marked(markdown);
-      return Slidedown.fromHTML(html);
+      return this.fromHTML(html);
     },
 
     fromXHR: function fromXHR(title) {
-      var format = inferFormat(title),
-          target = document.body;
+      var slidedown = this,
+          format    = inferFormat(title);
 
       var request = new XMLHttpRequest();
       request.open('GET', title);
 
       request.addEventListener('load', function() {
-        Slidedown['from' + format](request.responseText).to(target);
+        slidedown['from' + format](request.responseText);
       });
 
       request.send();
 
-      return {
-        to: function(newTarget) {
-          target = newTarget;
-        }
-      };
+      return this;
     }
 
   };
@@ -215,6 +214,24 @@
     return '<pre class="' + lang + '">' + html + '</pre>';
   };
 
-  this.Slidedown = Slidedown;
+  function staticize(constructor, properties) {
+    var staticized = {};
+
+    forEach(properties, function(property) {
+      staticized[property] = function() {
+        var instance = new constructor();
+        return instance[property].apply(instance, arguments);
+      };
+    });
+
+    return staticized;
+  }
+
+  this.Slidedown = staticize(Slidedown, [
+    'fromElements',
+    'fromHTML',
+    'fromMarkdown',
+    'fromXHR'
+  ]);
 
 }).call(this);
