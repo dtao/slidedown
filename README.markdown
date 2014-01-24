@@ -7,9 +7,17 @@
 
 Write your presentations in a text editor.
 
+- No fancy WYSIWIG editor
+- No hand-written HTML
+- Just text (Markdown)
+
 Separate slides with `***`.
 
-For example, this is what this slide (before this sentence) looks like:
+***
+
+# For example
+
+This is the source for the previous slide:
 
 ```markdown
 ***
@@ -17,6 +25,10 @@ For example, this is what this slide (before this sentence) looks like:
 # The basic idea
 
 Write your presentations in a text editor.
+
+- No fancy WYSIWIG editor
+- No hand-written HTML
+- Just text (Markdown)
 
 Separate slides with `***`.
 
@@ -28,9 +40,28 @@ Separate slides with `***`.
 # How it works
 
 Slidedown parses Markdown, then splits up the HTML into slides by splitting at
-every `<HR>` tag (which you get w/ `***` in Markdown).
+every `<HR>` tag.
 
-You can then navigate left/right through the slides using the keyboard.
+***
+
+# How it works
+
+Every slide has a *layout* which is inferred by the elements making up that
+slide.
+
+***
+
+# For example, this slide has an `<h1>` and an `<h2>`
+## So Slidedown infers that the layout should be like this
+
+***
+
+# Navigation
+
+You can navigate left/right through the slides using the keyboard.
+
+You can also click on either side of the screen, or <strike>use swipe gestures
+on mobile devices</strike>. (Swiping isn't implemented yet.)
 
 ***
 
@@ -47,4 +78,24 @@ Slidedown.fromMarkdown('markdown source');
 Slidedown.fromHTML('html source');
 ```
 
-That's it!
+***
+
+# How to use it
+
+By default, slides will be dumped directly into the document's `<body>` element.
+You can change this:
+
+```javascript
+var slides = document.getElementById('slides');
+Slidedown.fromMarkdown('markdown source').to(slides);
+```
+
+Or even just:
+
+```javascript
+Slidedown.fromMarkdown('markdown source').to('#slides');
+```
+
+***
+
+# The End

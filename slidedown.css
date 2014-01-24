@@ -20,7 +20,6 @@ code {
   height: calc(100% - 48px);
   width: fit-content;
   width: intrinsic;
-  max-width: 60%;
   margin: auto;
   padding-top: 48px;
 
@@ -29,6 +28,18 @@ code {
 
 .slide.current {
   display: block;
+}
+
+@media all and (min-width: 960px) {
+  .slide {
+    max-width: 960px;
+  }
+}
+
+@media all and (min-width: 1280px) {
+  .slide {
+    max-width: 75%;
+  }
 }
 
 .slide h1,
