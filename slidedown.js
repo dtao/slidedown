@@ -32,6 +32,8 @@
         // Attach left/right keyboard shortcuts
         handleKey(39, nextSlide);
         handleKey(37, prevSlide);
+        handleClick('x > 90%', nextSlide);
+        handleClick('x < 10%', prevSlide);
 
         // Focus on the target slide (or first, by default)
         focusTargetSlide();
@@ -162,6 +164,62 @@
         callback();
       }
     });
+  }
+
+  function handleClick(conditions, callback) {
+    conditions = parseConditions(conditions);
+
+    document.addEventListener('click', function(e) {
+      if (conditions(e)) {
+        callback();
+      }
+    });
+  }
+
+  function parseConditions(conditions) {
+    conditions = conditions.split(/\s+/);
+
+    var property  = conditions[0],
+        operator  = conditions[1],
+        threshold = conditions[2];
+
+    if (threshold.charAt(threshold.length - 1) === '%') {
+      threshold = Number(threshold.substring(0, threshold.length - 1));
+      threshold /= 100;
+    } else {
+      threshold = Number(threshold);
+    }
+
+    var comparisonProperty;
+    switch (property) {
+      case 'x':
+        property = 'clientX';
+        comparisonProperty = 'innerWidth';
+        break;
+
+      case 'y':
+        property = 'clientY';
+        comparisonProperty = 'innerHeight';
+        break;
+
+      default:
+        throw "Unrecognized property: '" + property + '"';
+    }
+
+    switch (operator) {
+      case '<':
+        return function(e) {
+          return e[property] < (window[comparisonProperty] * threshold);
+        };
+
+      case '>':
+        return function(e) {
+          return e[property] > (window[comparisonProperty] * threshold);
+        };
+
+      default:
+        throw "Unrecognized operator: '" + operator + '"';
+    }
   }
 
   function nextSlide() {
