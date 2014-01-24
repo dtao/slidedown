@@ -34,7 +34,14 @@ You can then navigate left/right through the slides using the keyboard.
 # How to use it
 
 ```javascript
-Slide.down('name of markdown file');
+// Fetch the source Markdown using an AJAX request
+Slidedown.fromXHR('path/to/slides.markdown');
+
+// Or if you have the Markdown in a string already
+Slidedown.fromMarkdown('markdown source');
+
+// Or if you actually have HTML rendered from Markdown already
+Slidedown.fromHTML('html source');
 ```
 
 That's it!

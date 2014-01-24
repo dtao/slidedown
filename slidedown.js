@@ -1,40 +1,53 @@
 (function() {
 
-  this.Slide = {
+  var Slidedown = {
 
-    down: function down(title) {
+    fromElements: function fromElements(elements) {
       whenReady(function() {
-        marked.setOptions({
-          renderer: new CustomRenderer()
+        eachSlide(elements, function(slide, number) {
+          var element = document.createElement('DIV');
+          element.id = 'slide-' + number;
+          element.className = 'slide';
+          element.setAttribute('data-layout', slide.layout);
+          element.innerHTML = slide.html;
+          document.body.appendChild(element);
         });
 
-        var request = new XMLHttpRequest();
-        request.open('GET', title + '.markdown');
+        // Attach left/right keyboard shortcuts
+        handleKey(39, nextSlide);
+        handleKey(37, prevSlide);
 
-        request.addEventListener('load', function() {
-          var html = marked(request.responseText),
-              doc  = parseHTML(html);
-
-          eachSlide(doc, function(slide, number) {
-            var element = document.createElement('DIV');
-            element.id = 'slide-' + number;
-            element.className = 'slide';
-            element.setAttribute('data-layout', slide.layout);
-            element.innerHTML = slide.html;
-            document.body.appendChild(element);
-          });
-
-          // Attach left/right keyboard shortcuts
-          handleKey(39, nextSlide);
-          handleKey(37, prevSlide);
-
-          // Focus on the target slide (or first, by default)
-          focusTargetSlide();
-          window.addEventListener('hashchange', focusTargetSlide);
-        });
-
-        request.send();
+        // Focus on the target slide (or first, by default)
+        focusTargetSlide();
+        window.addEventListener('hashchange', focusTargetSlide);
       });
+    },
+
+    fromHTML: function fromHTML(html) {
+      var elements = parseHTML(html);
+      Slidedown.fromElements(elements);
+    },
+
+    fromMarkdown: function fromMarkdown(markdown) {
+      marked.setOptions({
+        renderer: new CustomRenderer()
+      });
+
+      var html = marked(markdown);
+      Slidedown.fromHTML(html);
+    },
+
+    fromXHR: function fromXHR(title) {
+      var format = inferFormat(title);
+
+      var request = new XMLHttpRequest();
+      request.open('GET', title);
+
+      request.addEventListener('load', function() {
+        Slidedown['from' + format](request.responseText);
+      });
+
+      request.send();
     }
 
   };
@@ -46,6 +59,21 @@
     }
 
     window.addEventListener('load', callback);
+  }
+
+  function inferFormat(title) {
+    var extension = title.split('.').pop();
+
+    switch (extension) {
+      case 'htm':
+      case 'html':
+        return 'HTML';
+
+      case 'md':
+      case 'markdown':
+      default:
+        return 'Markdown';
+    }
   }
 
   function parseHTML(html) {
@@ -164,5 +192,7 @@
     var html = hljs.highlight(lang, code).value;
     return '<pre class="' + lang + '">' + html + '</pre>';
   };
+
+  this.Slidedown = Slidedown;
 
 }).call(this);
