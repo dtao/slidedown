@@ -15,7 +15,9 @@ Separate slides with `***`.
 
 ***
 
-For example, this is the source for the previous slide:
+# For example
+
+This is the source for the previous slide:
 
 ```markdown
 ***
