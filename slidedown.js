@@ -3,6 +3,15 @@
   var Slidedown = {
 
     fromElements: function fromElements(elements) {
+      var target = document.body;
+
+      var destination = function() {
+        if (typeof target === 'string') {
+          return document.querySelector(target);
+        }
+        return target;
+      };
+
       whenReady(function() {
         eachSlide(elements, function(slide, number) {
           var element = document.createElement('DIV');
@@ -10,7 +19,7 @@
           element.className = 'slide';
           element.setAttribute('data-layout', slide.layout);
           element.innerHTML = slide.html;
-          document.body.appendChild(element);
+          destination().appendChild(element);
         });
 
         // Attach left/right keyboard shortcuts
@@ -21,11 +30,17 @@
         focusTargetSlide();
         window.addEventListener('hashchange', focusTargetSlide);
       });
+
+      return {
+        to: function(newTarget) {
+          target = newTarget;
+        }
+      };
     },
 
     fromHTML: function fromHTML(html) {
       var elements = parseHTML(html);
-      Slidedown.fromElements(elements);
+      return Slidedown.fromElements(elements);
     },
 
     fromMarkdown: function fromMarkdown(markdown) {
@@ -34,20 +49,27 @@
       });
 
       var html = marked(markdown);
-      Slidedown.fromHTML(html);
+      return Slidedown.fromHTML(html);
     },
 
     fromXHR: function fromXHR(title) {
-      var format = inferFormat(title);
+      var format = inferFormat(title),
+          target = document.body;
 
       var request = new XMLHttpRequest();
       request.open('GET', title);
 
       request.addEventListener('load', function() {
-        Slidedown['from' + format](request.responseText);
+        Slidedown['from' + format](request.responseText).to(target);
       });
 
       request.send();
+
+      return {
+        to: function(newTarget) {
+          target = newTarget;
+        }
+      };
     }
 
   };

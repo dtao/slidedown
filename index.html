@@ -10,11 +10,12 @@
     <script type="text/javascript" src="slidedown.js"></script>
 
     <script>
-        Slide.down('README');
+        Slidedown.fromXHR('README.markdown').to('#slides');
     </script>
 </head>
 
 <body>
+    <div id="slides"></div>
 </body>
 
 </html>
