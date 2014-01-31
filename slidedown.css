@@ -26,13 +26,13 @@ code {
   display: none;
 
   overflow-x: hidden;
-  /*overflow-y: auto;*/
 }
 
 .slide .content {
   min-height: calc(100% - 48px);
   width: fit-content;
   width: intrinsic;
+  max-width: 100%;
   margin: auto;
   padding-top: 48px;
 
@@ -100,6 +100,7 @@ code {
   position: relative;
   padding: 12px;
   background-color: #eee;
+  white-space: pre-wrap;
 }
 
 .slide blockquote {

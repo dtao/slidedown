@@ -7394,10 +7394,6 @@ var marked = require('marked'),
         handleClick('x > 90%', nextSlide);
         handleClick('x < 10%', prevSlide);
 
-        document.addEventListener('scroll', function(e) {
-          window.scrollTo(0, window.scrollY);
-        });
-
         if (typeof Hammer !== 'undefined') {
           Hammer(document).on('swipeleft', nextSlide);
           Hammer(document).on('swiperight', prevSlide);
@@ -7606,6 +7602,10 @@ var marked = require('marked'),
       addClass(current, 'previous');
       addClass(next, 'current');
       addClass(following, 'next');
+
+      // Prevent partial horizontal scrolling from messing up the layout on
+      // small viewports (mobile devices)
+      window.scrollTo(0, window.scrollY);
 
       setSlideId(next.id);
     }
