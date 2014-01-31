@@ -34,6 +34,8 @@
         handleKey(37, prevSlide);
         handleClick('x > 90%', nextSlide);
         handleClick('x < 10%', prevSlide);
+        Hammer(document).on('swipeleft', nextSlide);
+        Hammer(document).on('swiperight', prevSlide);
 
         // Focus on the target slide (or first, by default)
         focusTargetSlide();

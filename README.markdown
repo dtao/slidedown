@@ -60,8 +60,8 @@ slide.
 
 You can navigate left/right through the slides using the keyboard.
 
-You can also click on either side of the screen, or <strike>use swipe gestures
-on mobile devices</strike>. (Swiping isn't implemented yet.)
+You can also click on either side of the screen, or use swipe gestures
+on mobile devices.
 
 ***
 
