@@ -1,3 +1,6 @@
+var marked = require('marked'),
+    hljs   = require('highlight.js');
+
 (function() {
 
   function Slidedown() {
@@ -34,8 +37,11 @@
         handleKey(37, prevSlide);
         handleClick('x > 90%', nextSlide);
         handleClick('x < 10%', prevSlide);
-        Hammer(document).on('swipeleft', nextSlide);
-        Hammer(document).on('swiperight', prevSlide);
+
+        if (typeof Hammer !== 'undefined') {
+          Hammer(document).on('swipeleft', nextSlide);
+          Hammer(document).on('swiperight', prevSlide);
+        }
 
         // Focus on the target slide (or first, by default)
         focusTargetSlide();
@@ -287,11 +293,11 @@
     return staticized;
   }
 
-  this.Slidedown = staticize(Slidedown, [
+  window.Slidedown = staticize(Slidedown, [
     'fromElements',
     'fromHTML',
     'fromMarkdown',
     'fromXHR'
   ]);
 
-}).call(this);
+})();

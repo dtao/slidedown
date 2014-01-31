@@ -2,8 +2,6 @@
   "destination": "lib",
 
   "dependencies": [
-    ["chjj/marked", "lib/marked.js"],
-    ["http://yandex.st/highlightjs/8.0/", "highlight.min.js"],
     ["EightMedia/hammer.js", "hammer.js"],
     ["isagalaev/highlight.js", "src/styles/solarized_dark.css"]
   ]
