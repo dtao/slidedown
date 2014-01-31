@@ -11,7 +11,6 @@ html, body {
 
 body {
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
-  font-size: 200%;
 }
 
 code {
@@ -22,17 +21,23 @@ code {
   position: absolute;
   top: 0;
   bottom: 0;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   display: none;
+
+  overflow-x: hidden;
+  /*overflow-y: auto;*/
 }
 
 .slide .content {
-  height: calc(100% - 48px);
+  min-height: calc(100% - 48px);
   width: fit-content;
   width: intrinsic;
   margin: auto;
   padding-top: 48px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .slide.previous,
@@ -57,7 +62,17 @@ code {
   left: 100%;
 }
 
+@media all and (max-width: 959px) {
+  body {
+    font-size: 125%;
+  }
+}
+
 @media all and (min-width: 960px) {
+  body {
+    font-size: 200%;
+  }
+
   .slide .content {
     max-width: 960px;
   }

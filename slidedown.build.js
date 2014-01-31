@@ -7394,6 +7394,10 @@ var marked = require('marked'),
         handleClick('x > 90%', nextSlide);
         handleClick('x < 10%', prevSlide);
 
+        document.addEventListener('scroll', function(e) {
+          window.scrollTo(0, window.scrollY);
+        });
+
         if (typeof Hammer !== 'undefined') {
           Hammer(document).on('swipeleft', nextSlide);
           Hammer(document).on('swiperight', prevSlide);
@@ -7594,9 +7598,8 @@ var marked = require('marked'),
         next      = current.nextElementSibling,
         following = next && next.nextElementSibling;
 
-    removeClass(prev, 'previous');
-
     if (next) {
+      removeClass(prev, 'previous');
       removeClass(current, 'current');
       removeClass(next, 'next');
 
@@ -7614,9 +7617,8 @@ var marked = require('marked'),
         next      = current.nextElementSibling,
         preceding = prev && prev.previousElementSibling;
 
-    removeClass(next, 'next');
-
     if (prev) {
+      removeClass(next, 'next');
       removeClass(current, 'current');
       removeClass(prev, 'previous');
 
