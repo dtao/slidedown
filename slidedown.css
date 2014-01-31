@@ -5,6 +5,8 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
+
+  overflow-x: hidden;
 }
 
 body {
@@ -17,27 +19,52 @@ code {
 }
 
 .slide {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+}
+
+.slide .content {
   height: calc(100% - 48px);
   width: fit-content;
   width: intrinsic;
   margin: auto;
   padding-top: 48px;
+}
 
-  display: none;
+.slide.previous,
+.slide.current,
+.slide.next {
+  display: block;
+
+  transition: left 0.5s ease;
+  -moz-transition: left 0.5s ease;
+  -webkit-transition: left 0.5s ease;
+}
+
+.slide.previous {
+  left: -100%;
 }
 
 .slide.current {
-  display: block;
+  left: 0;
+}
+
+.slide.next {
+  left: 100%;
 }
 
 @media all and (min-width: 960px) {
-  .slide {
+  .slide .content {
     max-width: 960px;
   }
 }
 
 @media all and (min-width: 1280px) {
-  .slide {
+  .slide .content {
     max-width: 75%;
   }
 }

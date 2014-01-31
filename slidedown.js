@@ -13,10 +13,14 @@ var marked = require('marked'),
       this.target = target;
     },
 
-    append: function append(element) {
+    destination: function destination() {
       var destination = typeof this.target === 'string' ?
         document.querySelector(this.target) : this.target;
-      destination.appendChild(element);
+      return destination;
+    },
+
+    append: function append(element) {
+      this.destination().appendChild(element);
     },
 
     fromElements: function fromElements(elements) {
@@ -27,8 +31,13 @@ var marked = require('marked'),
           var element = document.createElement('DIV');
           element.id = 'slide-' + number;
           element.className = 'slide';
-          element.setAttribute('data-layout', slide.layout);
-          element.innerHTML = slide.html;
+
+          var content = document.createElement('DIV');
+          content.className = 'content';
+          content.setAttribute('data-layout', slide.layout);
+          content.innerHTML = slide.html;
+          element.appendChild(content);
+
           slidedown.append(element);
         });
 
@@ -159,10 +168,12 @@ var marked = require('marked'),
   }
 
   function removeClass(element, className) {
+    if (!element) { return; }
     element.classList.remove(className);
   }
 
   function addClass(element, className) {
+    if (!element) { return; }
     element.classList.add(className);
   }
 
@@ -231,23 +242,41 @@ var marked = require('marked'),
   }
 
   function nextSlide() {
-    var current = document.querySelector('.slide.current'),
-        next    = current.nextElementSibling;
+    var current   = document.querySelector('.slide.current'),
+        prev      = current.previousElementSibling,
+        next      = current.nextElementSibling,
+        following = next && next.nextElementSibling;
+
+    removeClass(prev, 'previous');
 
     if (next) {
       removeClass(current, 'current');
+      removeClass(next, 'next');
+
+      addClass(current, 'previous');
       addClass(next, 'current');
+      addClass(following, 'next');
+
       setSlideId(next.id);
     }
   }
 
   function prevSlide() {
-    var current = document.querySelector('.slide.current'),
-        prev    = current.previousElementSibling;
+    var current   = document.querySelector('.slide.current'),
+        prev      = current.previousElementSibling,
+        next      = current.nextElementSibling,
+        preceding = prev && prev.previousElementSibling;
+
+    removeClass(next, 'next');
 
     if (prev) {
       removeClass(current, 'current');
+      removeClass(prev, 'previous');
+
+      addClass(current, 'next');
       addClass(prev, 'current');
+      addClass(preceding, 'previous');
+
       setSlideId(prev.id);
     }
   }
@@ -257,14 +286,18 @@ var marked = require('marked'),
   }
 
   function focusTargetSlide() {
-    var current = document.querySelector('.slide.current');
+    var current  = document.querySelector('.slide.current'),
+        previous = document.querySelector('.slide.previous'),
+        next     = document.querySelector('.slide.next');
 
-    if (current) {
-      removeClass(current, 'current');
-    }
+    removeClass(current, 'current');
+    removeClass(previous, 'previous');
+    removeClass(next, 'next');
 
     var targetSlide = document.querySelector(window.location.hash || '.slide:first-child');
     addClass(targetSlide, 'current');
+    addClass(targetSlide.previousElementSibling, 'previous');
+    addClass(targetSlide.nextElementSibling, 'next');
   }
 
   function CustomRenderer() {}
