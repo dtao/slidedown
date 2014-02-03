@@ -7395,8 +7395,11 @@ var marked = require('marked'),
         handleClick('x < 10%', prevSlide);
 
         if (typeof Hammer !== 'undefined') {
-          Hammer(document).on('swipeleft', nextSlide);
-          Hammer(document).on('swiperight', prevSlide);
+          (function(Hammer) {
+            var hammer = Hammer(document, { drag_block_horizontal: true });
+            hammer.on('swipeleft', nextSlide);
+            hammer.on('swiperight', prevSlide);
+          }(Hammer));
         }
 
         // Focus on the target slide (or first, by default)
@@ -7603,9 +7606,10 @@ var marked = require('marked'),
       addClass(next, 'current');
       addClass(following, 'next');
 
-      // Prevent partial horizontal scrolling from messing up the layout on
-      // small viewports (mobile devices)
-      window.scrollTo(0, window.scrollY);
+      // Correct for any rogue dragging that occurred.
+      setTimeout(function() {
+        window.scrollTo(0, window.scrollY);
+      }, 0);
 
       setSlideId(next.id);
     }
