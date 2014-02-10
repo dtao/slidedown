@@ -7,7 +7,7 @@
 
 # Usage
 
-Specify Markdown file in with `src` in URL:
+Specify Markdown file with `src` in URL:
 
 ```bash
 http://localhost:8000/   # defaults to 'README.markdown'
