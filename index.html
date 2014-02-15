@@ -16,7 +16,21 @@
     </style>
 
     <script>
-        Slidedown.fromXHR('README.markdown').to('#slides');
+        function parseQuery(querystring) {
+            // remove any preceding url and split
+            querystring = querystring.substring(querystring.indexOf('?')+1).split('&');
+            var params = {}, pair, d = decodeURIComponent;
+            // march and parse
+            for (var i = querystring.length - 1; i >= 0; i--) {
+                pair = querystring[i].split('=');
+                params[d(pair[0])] = d(pair[1]);
+            }
+
+            return params;
+        };
+        // console.log(document.location);
+        var mdSource = parseQuery(document.location.search).src || 'README.markdown';
+        Slidedown.fromXHR(mdSource).to('#slides');
     </script>
 </head>
 
