@@ -7,6 +7,36 @@ var marked = require('marked'),
     this.target = 'body';
   }
 
+  var slideLayouts = {
+    'title-only': { pattern: /^H1$/ },
+    'title-subtitle': { pattern: /^H1,H2$/ },
+    'side-by-side': {
+      pattern: /^H1,.+,H1,.+$/,
+      postprocess: function(content) {
+        var left = document.createElement('DIV');
+        left.className = 'left';
+        // content.appendChild(left);
+
+        // Insert the first <H1> and the stuff below it (but before the second
+        // <H2>) into the left pane.
+        do {
+          left.appendChild(content.firstChild);
+        } while (content.firstChild.tagName !== 'H1')
+
+        var right = document.createElement('DIV');
+        right.className = 'right';
+
+        // Insert everything else into the right pane.
+        do {
+          right.appendChild(content.firstChild);
+        } while (content.firstChild);
+
+        content.appendChild(left);
+        content.appendChild(right);
+      }
+    }
+  };
+
   Slidedown.prototype = {
 
     to: function to(target) {
@@ -37,6 +67,11 @@ var marked = require('marked'),
           content.setAttribute('data-layout', slide.layout);
           content.innerHTML = slide.html;
           element.appendChild(content);
+
+          var layout = slideLayouts[slide.layout];
+          if (layout && typeof layout.postprocess === 'function') {
+            layout.postprocess(content);
+          }
 
           if (number === 1) {
             addNavigationInstructions(element);
@@ -162,16 +197,13 @@ var marked = require('marked'),
   function getSlideLayout(parts) {
     var key = parts.map(function(part) { return part.tagName; }).join(',');
 
-    switch (key) {
-      case 'H1':
-        return 'title-only';
-
-      case 'H1,H2':
-        return 'title-subtitle';
-
-      default:
-        return 'default';
+    for (var layout in slideLayouts) {
+      if (slideLayouts[layout].pattern.test(key)) {
+        return layout;
+      }
     }
+
+    return 'default';
   }
 
   function addNavigationInstructions(element) {

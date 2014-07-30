@@ -56,6 +56,18 @@ slide.
 
 ***
 
+# Pros
+
+- easy
+- saves time
+- looks great
+
+# Cons
+
+- none?
+
+***
+
 # Navigation
 
 You can navigate left/right through the slides using the keyboard.
