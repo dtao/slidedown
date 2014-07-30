@@ -38,6 +38,10 @@ var marked = require('marked'),
           content.innerHTML = slide.html;
           element.appendChild(content);
 
+          if (number === 1) {
+            addNavigationInstructions(element);
+          }
+
           slidedown.append(element);
         });
 
@@ -168,6 +172,31 @@ var marked = require('marked'),
       default:
         return 'default';
     }
+  }
+
+  function addNavigationInstructions(element) {
+    var instructions = document.createElement('DIV');
+    instructions.className = 'navigation-instructions';
+    element.appendChild(instructions);
+
+    var label = document.createElement('P');
+    label.textContent = 'Navigation options:';
+    instructions.appendChild(label);
+
+    var list = document.createElement('UL');
+    instructions.appendChild(list);
+
+    var options = [
+      'Use left + right arrow keys',
+      'Click on the left + right sides of the screen',
+      'Swipe left + right (on touch devices)'
+    ];
+
+    forEach(options, function(option) {
+      var listItem = document.createElement('LI');
+      listItem.textContent = option;
+      list.appendChild(listItem);
+    });
   }
 
   function removeClass(element, className) {

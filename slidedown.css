@@ -40,6 +40,20 @@ code {
   overflow-y: auto;
 }
 
+.slide footer {
+  position: absolute;
+  bottom: 12px;
+  width: 100%;
+  text-align: center;
+}
+
+.slide .navigation-instructions {
+  display: inline-block;
+  font-size: small;
+  color: #808080;
+  text-align: left;
+}
+
 .slide.previous,
 .slide.current,
 .slide.next {

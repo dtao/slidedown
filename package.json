@@ -1,0 +1,20 @@
+{
+  "name": "slidedown",
+  "version": "0.1.0",
+  "description": "Markdown slide decks",
+  "main": "slidedown.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dtao/slidedown.git"
+  },
+  "author": "Dan Tao <daniel.tao@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dtao/slidedown/issues"
+  },
+  "homepage": "https://github.com/dtao/slidedown",
+  "dependencies": {
+    "highlight.js": "^8.1.0",
+    "marked": "^0.3.2"
+  }
+}
