@@ -8815,9 +8815,12 @@ var marked = require('marked'),
   }
 
   function addNavigationInstructions(element) {
+    var footer = document.createElement('FOOTER');
+    element.appendChild(footer);
+
     var instructions = document.createElement('DIV');
     instructions.className = 'navigation-instructions';
-    element.appendChild(instructions);
+    footer.appendChild(instructions);
 
     var label = document.createElement('P');
     label.textContent = 'Navigation options:';
